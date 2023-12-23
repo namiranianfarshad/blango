@@ -22,6 +22,7 @@ import blango_auth.views
 
 from django_registration.backends.activation.views import RegistrationView
 from blango_auth.forms import BlangoRegistrationForm
+from django.conf.urls.static import static
 
 # from django.conf import settings
 # print(f"== Time Zone : {settings.TIME_ZONE} ==")
@@ -37,7 +38,10 @@ urlpatterns = [
     path("accounts/", include("django_registration.backends.activation.urls")),
     path("accounts/", include("allauth.urls")),
     path("api/v1/", include("blog.api.urls")),
+    path("post-table/", blog.views.post_table, name="blog-post-table"),
 ]
 
 if settings.DEBUG:
-    urlpatterns += [path("__debug__/", include(debug_toolbar.urls))]
+    urlpatterns += [
+        path("__debug__/", include(debug_toolbar.urls)),
+    ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
